@@ -1,16 +1,12 @@
 import tweepy as tw
 import pandas as pd
 import json
-# from backend.confi import (
-#     CUSTOMER_API_KEY,
-#     CUSTOMER_API_KEY_SECRET,
-#     ACCESS_TOKEN,
-#     ACCESS_TOKEN_SECRET
-# )
-CUSTOMER_API_KEY = 'Y6bW5p9SedrXsj8OCBsgpduo2'
-CUSTOMER_API_KEY_SECRET = 'uatHTCKoQy5kz9tKRQe5CMZuMTcQggPAEZjduUBIsjeBCK5Wu0'
-ACCESS_TOKEN = '1711987147371343872-aqVIxD9oG8yZc6euKcMD1Hv3k45z1s'
-ACCESS_TOKEN_SECRET = '5W8aJw6enrKbOG7N8tSylEI7OPy6QjY137MoW2fcRf6Kj'
+from backend.confi import (
+    CUSTOMER_API_KEY,
+    CUSTOMER_API_KEY_SECRET,
+    ACCESS_TOKEN,
+    ACCESS_TOKEN_SECRET
+)
 
 
 auth = tw.OAuth1UserHandler(
