@@ -131,6 +131,6 @@ async def predict_flood(data: dict):
         features = [float(data[key]) for key in ['YEAR', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']]
         np_features = np.array(features).reshape(1, -1)
         prediction = model.predict(np_features)
-        return {"prediction": prediction}
+        return {"prediction": prediction.tolist()[0]}
     except:
         raise HTTPException(status_code=400, detail="Invalid input format")
