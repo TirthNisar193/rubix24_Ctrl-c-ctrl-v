@@ -3,8 +3,9 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from typing import List, Dict
 import json
 from bson import json_util
+from fastapi.middleware.cors import CORSMiddleware 
 
-from external_apis.news import get_news
+# from external_apis.news import get_news
 from external_apis.twitter_scrapper import get_tweets
 from scrapers.social_buzz_scraper import scrape_social_buzz
 
@@ -15,16 +16,30 @@ from confi import (
 
 app = FastAPI()
 
+# CORS configuration
+origins = [
+    "http://localhost:5173",  # Update this with the actual origin of your React app
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/news")
-async def retrieve_news(topic: str):
-    if not topic:
-        raise HTTPException(status_code=400, detail="No topic provided")
-    return get_news(topic=topic)
+# @app.get("/news")
+# async def retrieve_news(topic: str):
+#     if not topic:
+#         raise HTTPException(status_code=400, detail="No topic provided")
+#     return get_news(topic=topic)
 
 
 @app.get("/twitter")
@@ -91,19 +106,19 @@ async def get_docter(location: str, count: int = 5):
         client.close()
 
 
-@app.get("/live_stats")
-async def get_live_stats(tag_name: str = 'naturaldisaster'):
-    client = AsyncIOMotorClient(MONGO_CONNECTION_STRING)
-    database = client[MONGO_DATABASE]
-    collection = database['social']
+# @app.get("/live_stats")
+# async def get_live_stats(tag_name: str = 'naturaldisaster'):
+#     client = AsyncIOMotorClient(MONGO_CONNECTION_STRING)
+#     database = client[MONGO_DATABASE]
+#     collection = database['social']
 
-    try:
-        data_in_db = await collection.find_one({'tag_name': tag_name}, {'_id': 0})
-        if not data_in_db:
-            data = scrape_social_buzz(tag_name=tag_name)
-            await collection.insert_one(data)
-            return data
-        else:
-            return data_in_db
-    except Exception as e:
-        raise Exception('some error occured: ',e)
+#     try:
+#         data_in_db = await collection.find_one({'tag_name': tag_name}, {'_id': 0})
+#         if not data_in_db:
+#             data = scrape_social_buzz(tag_name=tag_name)
+#             await collection.insert_one(data)
+#             return data
+#         else:
+#             return data_in_db
+#     except Exception as e:
+#         raise Exception('some error occured: ',e)
