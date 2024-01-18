@@ -50,11 +50,11 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/news")
-async def retrieve_news(topic: str):
-    if not topic:
-        raise HTTPException(status_code=400, detail="No topic provided")
-    return get_news(topic=topic)
+# @app.get("/news")
+# async def retrieve_news(topic: str):
+#     if not topic:
+#         raise HTTPException(status_code=400, detail="No topic provided")
+#     return get_news(topic=topic)
 
 
 @app.get("/twitter")
@@ -121,11 +121,11 @@ async def get_docter(location: str, count: int = 5):
         client.close()
 
 
-@app.get("/live_stats")
-async def get_live_stats(tag_name: str = 'naturaldisaster'):
-    client = AsyncIOMotorClient(MONGO_CONNECTION_STRING)
-    database = client[MONGO_DATABASE]
-    collection = database['social']
+# @app.get("/live_stats")
+# async def get_live_stats(tag_name: str = 'naturaldisaster'):
+#     client = AsyncIOMotorClient(MONGO_CONNECTION_STRING)
+#     database = client[MONGO_DATABASE]
+#     collection = database['social']
 
     try:
         data_in_db = await collection.find_one({'tag_name': tag_name}, {'_id': 0})
