@@ -2,7 +2,8 @@ from fastapi import FastAPI, HTTPException
 from motor.motor_asyncio import AsyncIOMotorClient
 from typing import List, Dict
 import json
-from bson import json_util
+import joblib
+import numpy as np
 
 from external_apis.news import get_news
 from external_apis.twitter_scrapper import get_tweets
@@ -14,6 +15,12 @@ from confi import (
 )
 
 app = FastAPI()
+
+# models
+with open('model_files/flood.joblib', 'rb') as file:
+    model = joblib.load(file)
+
+
 
 @app.get("/")
 def read_root():
@@ -107,3 +114,14 @@ async def get_live_stats(tag_name: str = 'naturaldisaster'):
             return data_in_db
     except Exception as e:
         raise Exception('some error occured: ',e)
+    
+
+@app.post('/predict_flood')
+async def predict_flood(data: dict):
+    try:
+        features = [float(data[key]) for key in ['YEAR', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']]
+        np_features = np.array(features).reshape(1, -1)
+        prediction = model.predict(np_features)
+        return {"prediction": prediction}
+    except:
+        raise HTTPException(status_code=400, detail="Invalid input format")
