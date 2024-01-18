@@ -30,6 +30,20 @@ class JSONEncoder(json.JSONEncoder):
             return str(o)
         return json.JSONEncoder.default(self, o)
 
+def get_fatality_rate(prediction, data):
+    print(data)
+    if prediction == 0:
+        return 0
+    else:
+        total = 0
+        for key, value in data.items():
+            if key != 'YEAR':
+                total += value
+
+        avg = total/12
+
+        return  round(((avg / 1500) * 14.9 + 0.1), 3)
+
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
@@ -131,6 +145,11 @@ async def predict_flood(data: dict):
         features = [float(data[key]) for key in ['YEAR', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']]
         np_features = np.array(features).reshape(1, -1)
         prediction = model.predict(np_features)
-        return {"prediction": prediction.tolist()[0]}
-    except:
-        raise HTTPException(status_code=400, detail="Invalid input format")
+        prediction = prediction.tolist()
+        prediction = prediction[0]
+
+        fatality_rate = get_fatality_rate(prediction, data)
+
+        return {"prediction": prediction, 'fatality_rate': fatality_rate}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Invalid input format, {e}")
