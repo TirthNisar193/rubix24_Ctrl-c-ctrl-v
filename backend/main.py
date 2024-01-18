@@ -1,4 +1,7 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
+from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorClient
 from typing import List, Dict
 import json
@@ -20,7 +23,12 @@ app = FastAPI()
 with open('model_files/flood.joblib', 'rb') as file:
     model = joblib.load(file)
 
-
+class JSONEncoder(json.JSONEncoder):
+    """ Extend json-encoder class to add support for ObjectId. """
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
 
 @app.get("/")
 def read_root():
@@ -108,8 +116,9 @@ async def get_live_stats(tag_name: str = 'naturaldisaster'):
         data_in_db = await collection.find_one({'tag_name': tag_name}, {'_id': 0})
         if not data_in_db:
             data = scrape_social_buzz(tag_name=tag_name)
-            await collection.insert_one(data)
-            return data
+            print(data)
+            print(type(data))
+            return JSONResponse(content=json.loads(JSONEncoder().encode(data)))
         else:
             return data_in_db
     except Exception as e:
