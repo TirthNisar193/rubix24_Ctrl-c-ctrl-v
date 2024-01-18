@@ -1,10 +1,12 @@
-from fastapi import FastAPI, HTTPException, Form
-from external_apis.news import get_news
-from external_apis.twitter_scrapper import get_tweets
+from fastapi import FastAPI, HTTPException
 from motor.motor_asyncio import AsyncIOMotorClient
 from typing import List, Dict
 import json
 from bson import json_util
+
+from external_apis.news import get_news
+from external_apis.twitter_scrapper import get_tweets
+from scrapers.social_buzz_scraper import scrape_social_buzz
 
 from confi import (
     MONGO_CONNECTION_STRING,
@@ -26,14 +28,28 @@ async def retrieve_news(topic: str):
 
 
 @app.get("/twitter")
-async def retrieve_twitter_data(word: str, number: int = 5):
+async def retrieve_twitter_data(word: str, number: int = 7):
     if not word:
         raise HTTPException(status_code=400, detail="No word provided")
-    return get_tweets(word=word, number=number) #connect to db for better speed
-
+    client = AsyncIOMotorClient(MONGO_CONNECTION_STRING)
+    database = client[MONGO_DATABASE]
+    collection = database['twitter']
+    
+    try:
+        data_in_db = await collection.find_one({'word': word}, {'_id': 0})
+        if not data_in_db:
+            data = get_tweets(word=word, number=number)
+            await collection.insert_one(data)
+            return data
+        else:
+            return data_in_db
+    except Exception as e:
+        raise Exception('some error occured: ',e)
 
 @app.post("/add_docter")
 async def add_docter(items: List[Dict]):
+    if not items:
+        raise HTTPException(status_code=400, detail="No items provided")
     client = AsyncIOMotorClient(MONGO_CONNECTION_STRING)
     database = client[MONGO_DATABASE]
     collection = database['docter']
@@ -51,8 +67,11 @@ async def add_docter(items: List[Dict]):
 
     return {"status": True}
 
+
 @app.get("/get_docters")
 async def get_docter(location: str, count: int = 5):
+    if not location:
+        raise HTTPException(status_code=400, detail="No location provided")
     client = AsyncIOMotorClient(MONGO_CONNECTION_STRING)
     database = client[MONGO_DATABASE]
     collection = database['docter']
@@ -70,3 +89,21 @@ async def get_docter(location: str, count: int = 5):
         return {"error": str(e)}
     finally:
         client.close()
+
+
+@app.get("/live_stats")
+async def get_live_stats(tag_name: str = 'naturaldisaster'):
+    client = AsyncIOMotorClient(MONGO_CONNECTION_STRING)
+    database = client[MONGO_DATABASE]
+    collection = database['social']
+
+    try:
+        data_in_db = await collection.find_one({'tag_name': tag_name}, {'_id': 0})
+        if not data_in_db:
+            data = scrape_social_buzz(tag_name=tag_name)
+            await collection.insert_one(data)
+            return data
+        else:
+            return data_in_db
+    except Exception as e:
+        raise Exception('some error occured: ',e)
