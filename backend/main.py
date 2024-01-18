@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from bson import ObjectId
@@ -9,7 +10,7 @@ import joblib
 import numpy as np
 
 from external_apis.open_api_model import get_resposne
-from external_apis.news import get_news
+# from external_apis.news import get_news
 from external_apis.twitter_scrapper import get_tweets
 from scrapers.social_buzz_scraper import scrape_social_buzz
 
@@ -19,6 +20,18 @@ from confi import (
 )
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:5173",  # Update this with the actual origin of your React app
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # models
 with open('model_files/flood.joblib', 'rb') as file:
@@ -121,12 +134,11 @@ async def get_docter(location: str, count: int = 5):
         client.close()
 
 
-# @app.get("/live_stats")
-# async def get_live_stats(tag_name: str = 'naturaldisaster'):
-#     client = AsyncIOMotorClient(MONGO_CONNECTION_STRING)
-#     database = client[MONGO_DATABASE]
-#     collection = database['social']
-
+@app.get("/live_stats")
+async def get_live_stats(tag_name: str = 'naturaldisaster'):
+    client = AsyncIOMotorClient(MONGO_CONNECTION_STRING)
+    database = client[MONGO_DATABASE]
+    collection = database['social']
     try:
         data_in_db = await collection.find_one({'tag_name': tag_name}, {'_id': 0})
         if not data_in_db:

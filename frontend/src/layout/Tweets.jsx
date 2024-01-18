@@ -20,17 +20,17 @@ const Tweets = () => {
     }
   };
 
-  useEffect(async()=>{
-    try {
-        // console.log(searchWord)
-      const response2 = await axios.get(`http://127.0.0.1:8000/twitter?word='flood'&number=2`);
-      console.log(response2.data.tweets.tweets)
+  // useEffect(async()=>{
+  //   try {
+  //       // console.log(searchWord)
+  //     const response2 = await axios.get(`http://127.0.0.1:8000/twitter?word='flood'&number=2`);
+  //     console.log(response2.data.tweets.tweets)
 
-      setRecentTweets(response2.data.tweets.tweets); // Assuming the response contains an array of tweets
-    } catch (error) {
-      console.error('Error fetching tweets:', error);
-    }
-  }, [])
+  //     setRecentTweets(response2.data.tweets.tweets); // Assuming the response contains an array of tweets
+  //   } catch (error) {
+  //     console.error('Error fetching tweets:', error);
+  //   }
+  // }, [])
 
   return (
     <div>
@@ -52,12 +52,12 @@ const Tweets = () => {
             </div>
           ))
         ) : (
-          // <div>No tweets found</div>
-          recentTweets.map((tweet, index) => (
-            <div key={index} style={{ marginBottom: '8px' }}>
-              <TweetCard tweet={tweet}/>
-            </div>
-          ))
+          <div>No tweets found</div>
+          // recentTweets.map((tweet, index) => (
+          //   <div key={index} style={{ marginBottom: '8px' }}>
+          //     <TweetCard tweet={tweet}/>
+          //   </div>
+          // ))
         )}
       </div>
     </div>

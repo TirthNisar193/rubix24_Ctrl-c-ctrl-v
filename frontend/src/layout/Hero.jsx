@@ -24,7 +24,8 @@ const Hero = () => {
         </Col>
       </Row>
       <Row justify={'center'}>
-        <img src='https://www.visualcapitalist.com/wp-content/uploads/2023/09/deadliest-earthquakes-21st-century.jpg' height={'auto'} width={'60%'}/>
+        {/* <img src='https://www.visualcapitalist.com/wp-content/uploads/2023/09/deadliest-earthquakes-21st-century.jpg' height={'auto'} width={'60%'}/> */}
+        
       </Row>
       <Row style={{padding: 30}} justify='space-between'>
         <Col xs={24} sm={24} md={12} lg={12} xl={12} align='center'>
