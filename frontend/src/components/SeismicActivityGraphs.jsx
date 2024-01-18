@@ -12,8 +12,13 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import {  Button,
+    Col,
     DatePicker,
+    Row,
     Space} from 'antd'
+    import { Typography } from 'antd';
+
+const { Title } = Typography;
 const SeismicActivityGraphs = () => {
   const [seismicData, setSeismicData] = useState([]);
   const [startDate, setStartDate] = useState(null);
@@ -77,7 +82,9 @@ const SeismicActivityGraphs = () => {
 
   return (
     <div>
-      <h2>Seismic Activity Moving Graph</h2>
+       <Title align={'center'}>Seismic Activity</Title>
+      <Row>
+        <Col lg={15}>
       <ResponsiveContainer width="100%" height={400}>
         <LineChart data={seismicData}>
           <CartesianGrid strokeDasharray="3 3" />
@@ -88,6 +95,8 @@ const SeismicActivityGraphs = () => {
           <Line type="monotone" dataKey="magnitude" stroke="#8884d8" />
         </LineChart>
       </ResponsiveContainer>
+      </Col>
+      <Col lg={9} align="center">
       <Space direction="vertical" style={{ marginTop: '20px' }}> 
         <Space>
           <DatePicker
@@ -106,8 +115,11 @@ const SeismicActivityGraphs = () => {
         </Button>
         <Button onClick={resetFilters}>Reset Filters</Button>
       </Space>
+      </Col>
+      </Row>
     </div>
   );
 };
 
 export default SeismicActivityGraphs;
+
