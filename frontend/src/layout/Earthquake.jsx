@@ -16,19 +16,15 @@ const { Title, Text } = Typography;
 
 const { Header, Content, Footer, Sider } = Layout;
 const items = [
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  AppstoreOutlined,
-  TeamOutlined,
-  ShopOutlined,
-].map((icon, index) => ({
-  key: String(index + 1),
-  icon: React.createElement(icon),
-  label: `nav ${index + 1}`,
-}));
+  {
+    key: '1',
+    label: 'Earthquake'
+  },
+  {
+    key: '2',
+    label: 'Floods'
+  }
+]
 
 // const items1 = ['1', '2', '3'].map((key) => ({
 //   key,
@@ -98,7 +94,10 @@ const Earthquake = () => {
           >
                          <Row style={{padding: '0% 5%'}}>
              <Title level={4}>Earthquake</Title>
-             <Text>An earthquake is a phenomenon that occurs without warning and involves violent shaking of the ground and everything over it. It results from the release of accumulated stress of the moving lithospheric or crustal plates. The earth's crust is divided into seven major plates, that are about 50 miles thick, which move slowly and continuously over the earth's interior and several minor plates. Earthquakes are tectonic in origin; that is the moving plates are responsible for the occurrence of violent shakes. The occurrence of an earthquake in a populated area may cause numerous casualties and injuries as well as extensive damage to property.</Text>
+             <Text>An earthquake is a phenomenon that occurs without warning and 
+                involves violent shaking of the ground and everything over it. 
+                It results from the release of accumulated stress of the moving 
+                lithospheric or crustal plates. The earth's crust is divided into seven major plates, that are about 50 miles thick, which move slowly and continuously over the earth's interior and several minor plates. Earthquakes are tectonic in origin; that is the moving plates are responsible for the occurrence of violent shakes. The occurrence of an earthquake in a populated area may cause numerous casualties and injuries as well as extensive damage to property.</Text>
               </Row>
             <SeismicActivityGraphs />
             <Row style={{padding: '1% 5%'}}>

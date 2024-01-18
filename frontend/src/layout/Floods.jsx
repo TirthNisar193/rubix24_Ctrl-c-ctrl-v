@@ -1,35 +1,36 @@
 import { Menu, Row, theme, Layout, Typography } from 'antd';
 import React from 'react';
-import {
-  AppstoreOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  ShopOutlined,
-  TeamOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
 import flood_line from '../assets/flood_line.jpeg'
 import Fdodont from '../components/Fdodont';
+import Earthquake from './Earthquake';
+import { Link } from 'react-router-dom';
 
 const { Title, Text } = Typography;
 
 const { Header, Content, Footer, Sider } = Layout;
+
 const items = [
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  AppstoreOutlined,
-  TeamOutlined,
-  ShopOutlined,
-].map((icon, index) => ({
-  key: String(index + 1),
-  icon: React.createElement(icon),
-  label: `nav ${index + 1}`,
-}));
+    {
+      key: '1',
+      label: 'Earthquake',
+    },
+    {
+      key: '2',
+      label: 'Floods'
+    },
+    {
+        key: '3',
+        label: 'Cyclone'
+    },
+    {
+        key: '4',
+        label: 'Tsunami'
+    },
+    {
+        key: '5',
+        label: 'Cloudburst'
+      }
+]
 
 // const items1 = ['1', '2', '3'].map((key) => ({
 //   key,
@@ -71,7 +72,14 @@ const Floods = () => {
         }}
       >
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} />
+        <h1 style={{color: '#ffffff', alignSelf: 'center'}}>DisasterGuard</h1>
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']} items={items}>
+        {items.map(item => (
+          <Menu.Item key={item.key}>
+            <Link to={`/${item.label.toLowerCase()}`}>{item.label}</Link>
+          </Menu.Item>
+        ))}
+        </Menu>
       </Sider>
       <Layout
         style={{
