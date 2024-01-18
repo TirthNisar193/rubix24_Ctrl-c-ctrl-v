@@ -8,6 +8,7 @@ import json
 import joblib
 import numpy as np
 
+from external_apis.open_api_model import get_resposne
 from external_apis.news import get_news
 from external_apis.twitter_scrapper import get_tweets
 from scrapers.social_buzz_scraper import scrape_social_buzz
@@ -153,3 +154,8 @@ async def predict_flood(data: dict):
         return {"prediction": prediction, 'fatality_rate': fatality_rate}
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Invalid input format, {e}")
+    
+
+@app.post('/disaster_response')
+async def get_disaster_reposrt(number_of_people: int, disaster_name: str):
+    return get_resposne(number_of_people, disaster_name)
