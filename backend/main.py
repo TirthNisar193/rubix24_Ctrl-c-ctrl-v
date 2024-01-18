@@ -1,10 +1,12 @@
-from fastapi import FastAPI, HTTPException, Form
-from external_apis.news import get_news
-from external_apis.twitter_scrapper import get_tweets
+from fastapi import FastAPI, HTTPException
 from motor.motor_asyncio import AsyncIOMotorClient
 from typing import List, Dict
 import json
 from bson import json_util
+
+from external_apis.news import get_news
+from external_apis.twitter_scrapper import get_tweets
+from scrapers.social_buzz_scraper import scrape_social_buzz
 
 from confi import (
     MONGO_CONNECTION_STRING,
@@ -70,3 +72,20 @@ async def get_docter(location: str, count: int = 5):
         return {"error": str(e)}
     finally:
         client.close()
+
+@app.get("/live_stats")
+async def get_live_stats(tag_name: str = 'naturaldisaster'):
+    client = AsyncIOMotorClient(MONGO_CONNECTION_STRING)
+    database = client[MONGO_DATABASE]
+    collection = database['social']
+
+    try:
+        data_in_db = await collection.find_one({'tag_name': tag_name})
+        if not data_in_db:
+            data = scrape_social_buzz(tag_name=tag_name)
+            await collection.insert_one(data)
+            return data
+        else:
+            return data_in_db
+    except Exception as e:
+        raise Exception('some error occured: ',e)
