@@ -6,10 +6,11 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from typing import List, Dict
 import json
 import joblib
+import pickle
 import numpy as np
 
 from external_apis.open_api_model import get_resposne
-from external_apis.news import get_news
+# from external_apis.news import get_news
 from external_apis.twitter_scrapper import get_tweets
 from scrapers.social_buzz_scraper import scrape_social_buzz
 
@@ -23,6 +24,8 @@ app = FastAPI()
 # models
 with open('model_files/flood.joblib', 'rb') as file:
     model = joblib.load(file)
+with open('model_files/earthquake.pkl', 'rb') as file:
+    earthquake_model = pickle.load(file)
 
 class JSONEncoder(json.JSONEncoder):
     """ Extend json-encoder class to add support for ObjectId. """
@@ -31,8 +34,7 @@ class JSONEncoder(json.JSONEncoder):
             return str(o)
         return json.JSONEncoder.default(self, o)
 
-def get_fatality_rate(prediction, data):
-    print(data)
+def get_fatality_rate(prediction: int, data: dict):
     if prediction == 0:
         return 0
     else:
@@ -43,7 +45,11 @@ def get_fatality_rate(prediction, data):
 
         avg = total/12
 
-        return  round(((avg / 1500) * 14.9 + 0.1), 3)
+        return round(((avg / 1500) * 14.9 + 0.1), 3)
+
+def get_fatality_rate_earthquake(depth: float, data: dict):
+    magnitude = data['magnitude']
+    return round((magnitude/1500)*(3.14/depth), 3)
 
 @app.get("/")
 def read_root():
@@ -121,11 +127,11 @@ async def get_docter(location: str, count: int = 5):
         client.close()
 
 
-# @app.get("/live_stats")
-# async def get_live_stats(tag_name: str = 'naturaldisaster'):
-#     client = AsyncIOMotorClient(MONGO_CONNECTION_STRING)
-#     database = client[MONGO_DATABASE]
-#     collection = database['social']
+@app.get("/live_stats")
+async def get_live_stats(tag_name: str = 'naturaldisaster'):
+    client = AsyncIOMotorClient(MONGO_CONNECTION_STRING)
+    database = client[MONGO_DATABASE]
+    collection = database['social']
 
     try:
         data_in_db = await collection.find_one({'tag_name': tag_name}, {'_id': 0})
@@ -156,6 +162,22 @@ async def predict_flood(data: dict):
         raise HTTPException(status_code=400, detail=f"Invalid input format, {e}")
     
 
-@app.post('/disaster_response')
+@app.post('/predict_depth')
+async def predict_depth(data: dict):
+    try:
+        features = [float(data[key]) for key in ['latitude', 'longitude','magnitude']]
+        np_features = np.array(features).reshape(1, -1)
+        depth = earthquake_model.predict(np_features)
+        depth = depth.tolist()
+        depth = depth[0]
+
+        fatality_rate = get_fatality_rate_earthquake(depth, data)
+
+        return {"depth":round(depth, 3), 'fatality_rate': fatality_rate}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Invalid input format, {e}")
+
+
+@app.get('/disaster_response')
 async def get_disaster_reposrt(number_of_people: int, disaster_name: str):
     return get_resposne(number_of_people, disaster_name)
