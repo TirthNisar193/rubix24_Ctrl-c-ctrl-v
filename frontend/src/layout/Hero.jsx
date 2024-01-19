@@ -1,31 +1,39 @@
 // src/components/HeroSection.js
 import React from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col, Typography, Button } from 'antd';
 import VisualDemo from './VisiualDemo';
 import Tweets from './Tweets';
 import Video from './Video';
+import FormPage from './FormPage';
+import disaster from '../assets/disaster.png'
+import ImageCarousel from './ImageCarousel';
 
 const Hero = () => {
   return (
     <div className="hero-section">
       <Row>
-        <Col xs={24} sm={24} md={12} lg={12} xl={14}>
+        <Col xs={24} sm={24} md={12} lg={12} xl={12} style={{marginTop: 100}}>
           <div className="hero-tagline">
-            <h1>Your Tagline Goes Here</h1>
-            <p>
-              Brief description or additional information about your disaster management system.
-            </p>
+            <Typography.Title level={1}>From Prediction to Protection:</Typography.Title>
+            <Typography.Title level={1} style={{color: '#ff675a', marginTop: -20}}>Unleashing the Power of Preparedness.</Typography.Title>
+            <Typography.Title level={5}>
+            From Prediction to Protection: Unleashing the Power of Preparedness is our commitment to turning foresight into action. We harness cutting-edge technology to predict disasters, empowering communities with timely information. Together, we stand resilient, ensuring that every step taken in preparedness becomes a shield against the uncertainties of tomorrow.
+            </Typography.Title>
+            <Button style={{backgroundColor: '#ff675a', color: 'white'}}>
+              Know more....
+            </Button>
           </div>
         </Col>
-        <Col xs={24} sm={24} md={12} lg={12} xl={10}>
-          <div className="hero-image1">
-            hello
-          </div>
+        <Col xs={24} sm={24} md={12} lg={12} xl={11}>
+          <img src={disaster} height={'600px'} width={'100%'}/>
         </Col>
       </Row>
-      <Row justify={'center'}>
+      <Row justify={'center'} style={{marginTop: 70, marginBottom: 30}}>
+        <ImageCarousel />
+      </Row>
+      <Row justify={'center'} style={{margin: '0 60'}}>
         {/* <img src='https://www.visualcapitalist.com/wp-content/uploads/2023/09/deadliest-earthquakes-21st-century.jpg' height={'auto'} width={'60%'}/> */}
-        
+        <FormPage />
       </Row>
       <Row style={{padding: 30}} justify='space-between'>
         <Col xs={24} sm={24} md={12} lg={12} xl={12} align='center'>
