@@ -126,7 +126,7 @@ const Home = () => {
             textAlign: 'center',
           }}
         >
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+          DisasterGuard©{new Date().getFullYear()}
         </Footer>
       </Layout>
     </Layout>
@@ -234,7 +234,7 @@ export default Home;
 //           textAlign: 'center',
 //         }}
 //       >
-//         Ant Design ©{new Date().getFullYear()} Created by Ant UED
+//         DisasterGuard©{new Date().getFullYear()} Created by Ant UED
 //       </Footer>
 //     </Layout>
 //   );

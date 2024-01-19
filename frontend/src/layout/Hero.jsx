@@ -28,7 +28,7 @@ const Hero = () => {
           <img src={disaster} height={'600px'} width={'100%'}/>
         </Col>
       </Row>
-      <Row justify={'center'} style={{marginTop: 70, marginBottom: 30}}>
+      <Row justify={'center'} style={{marginTop: 10, marginBottom: 30}}>
         <ImageCarousel />
       </Row>
       <Row justify={'center'} style={{margin: '0 60'}}>

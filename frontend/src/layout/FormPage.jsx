@@ -7,7 +7,7 @@ const FormPage = () => {
   const [numberOfPeople, setNumberOfPeople] = useState(0);
   const [disasterName, setDisasterName] = useState('');
   const [response1, setResponse1] = useState(null);
-  const [response2, setResponse2] = useState([]);
+  const [response2, setResponse2] = useState(null);
 
   const handleGenerateResponse = async () => {
     try {
@@ -41,6 +41,7 @@ const FormPage = () => {
 
   return (
     <div>
+      <Typography.Title level={2} style={{marginLeft: '40%'}}>Resource Allocation</Typography.Title>
       <Form style={{ marginTop: 50 }}>
         <Flex>
           <Form.Item
@@ -96,15 +97,27 @@ const FormPage = () => {
       {/* <Typography.Title level={4}>{response2}</Typography.Title> */}
       {response1 && (
         <div>
-          <h2>Response 1:</h2>
-          <Typography.Title level={4}>{formattedResponse}</Typography.Title>
+          <h2>Response:</h2>
+          <Typography.Title level={5}>{formattedResponse}</Typography.Title>
         </div>
       )}
 
       {response2 && (
         <div>
-          <h2>Response 2:</h2>
-          <pre>{JSON.stringify(response2, null, 2)}</pre>
+          <h2>Doctors List:</h2>
+          <ul>
+            {response2.map((doctor, index) => (
+              <li key={index}>
+                <Typography.Text strong>{doctor.name}</Typography.Text>
+                <br />
+                Location: {doctor.location}
+                <br />
+                Phone Number: {doctor.phone_number}
+                <br />
+                Specialist: {doctor.specialist}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

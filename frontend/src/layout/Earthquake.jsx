@@ -132,7 +132,7 @@ const Earthquake = () => {
             textAlign: 'center',
           }}
         >
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+          DisasterGuard©{new Date().getFullYear()}
         </Footer>
       </Layout>
     </Layout>

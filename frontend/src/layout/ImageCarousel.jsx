@@ -1,5 +1,5 @@
 import React from 'react';
-import { Carousel } from 'antd';
+import { Carousel, Typography } from 'antd';
 import './ImageCarousel.css';  // Import your CSS file
 import image1 from '../../../backend/screenshots/naturaldisaster_0.png'
 import image2 from '../../../backend/screenshots/naturaldisaster_1.png'
@@ -24,6 +24,7 @@ const ImageCarousel = () => {
 
   return (
     <div className="carousel-container">
+      <Typography.Title level={2} style={{marginLeft: '30%'}}>Natural Disaster Sentiment Analysis</Typography.Title>
       <Carousel autoplay dots={false} slidesToShow={4} align='center'>
         {images.map((image, index) => (
           <div key={index} className="carousel-item" style={{align: 'center', marginTop: 'auto'}}>

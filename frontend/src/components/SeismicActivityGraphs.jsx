@@ -1,6 +1,4 @@
-// SeismicActivityGraphs.js
-
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   LineChart,
   Line,
@@ -11,20 +9,17 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import {  Button,
-    Col,
-    DatePicker,
-    Row,
-    Space} from 'antd'
-    import { Typography } from 'antd';
+import { Button, Col, DatePicker, Row, Space } from 'antd';
+import { Typography } from 'antd';
 
 const { Title } = Typography;
+
 const SeismicActivityGraphs = () => {
   const [seismicData, setSeismicData] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
-  const maxDataPoints = 300; // Maximum number of data points to display
+  const maxDataPoints = 400; // Maximum number of data points to display
 
   const fetchData = async () => {
     try {
@@ -82,44 +77,47 @@ const SeismicActivityGraphs = () => {
 
   return (
     <div>
-       <Title align={'center'}>Seismic Activity</Title>
+      <Title align={'center'}>Seismic Activity</Title>
       <Row>
         <Col lg={15}>
-      <ResponsiveContainer width="100%" height={400}>
-        <LineChart data={seismicData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="magnitude" stroke="#8884d8" />
-        </LineChart>
-      </ResponsiveContainer>
-      </Col>
-      <Col lg={9} align="center">
-      <Space direction="vertical" style={{ marginTop: '20px' }}> 
-        <Space>
-          <DatePicker
-            onChange={(date) => handleDateChange(date, 'start')}
-            value={startDate}
-            placeholder="Start Date"
-          />
-          <DatePicker
-            onChange={(date) => handleDateChange(date, 'end')}
-            value={endDate}
-            placeholder="End Date"
-          />
-        </Space>
-        <Button type="primary" onClick={fetchData} style={{backgroundColor: '#ff675a', color: 'white'}}>
-          Apply Filters
-        </Button>
-        <Button onClick={resetFilters}>Reset Filters</Button>
-      </Space>
-      </Col>
+          <ResponsiveContainer width="100%" height={400}>
+            <LineChart data={seismicData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" tick={{ fontSize: 10 }} angle={-45} textAnchor="end" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="magnitude" stroke="#8884d8" dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </Col>
+        <Col lg={9} align="center">
+          <Space direction="vertical" style={{ marginTop: '20px' }}>
+            <Space>
+              <DatePicker
+                onChange={(date) => handleDateChange(date, 'start')}
+                value={startDate}
+                placeholder="Start Date"
+              />
+              <DatePicker
+                onChange={(date) => handleDateChange(date, 'end')}
+                value={endDate}
+                placeholder="End Date"
+              />
+            </Space>
+            <Button
+              type="primary"
+              onClick={fetchData}
+              style={{ backgroundColor: '#ff675a', color: 'white' }}
+            >
+              Apply Filters
+            </Button>
+            <Button onClick={resetFilters}>Reset Filters</Button>
+          </Space>
+        </Col>
       </Row>
     </div>
   );
 };
 
 export default SeismicActivityGraphs;
-

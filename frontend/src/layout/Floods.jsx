@@ -172,40 +172,50 @@ const Floods = () => {
             <Row justify={'center'}>
                 <img src={flood_line} style={{width: '80%', padding: '3%'}}/>
             </Row>
-            <Row style={{margin: '1% 23% 2% 18%', padding: '4%', border: 'solid black 1px'}}>
+            <Typography.Title level={3} style={{marginLeft: '40%'}}>Flood Prediction</Typography.Title>
+            <Row style={{margin: '1% 23% 2% 18%', padding: '4%', border: 'solid black 1px', borderRadius: 20}}>
+              <Typography.Title level={2} style={{marginLeft: '30%', marginTop: -25}}>Rainfall in mm</Typography.Title>
                 <Col lg={12}>
-                <Slider
-                    defaultValue={jun}
-                    style={{width: '200px'}}
-                    step={10}
-                    max={1000}
-                    tooltip={{
-                    open: true,
-                    }}
-                    onChangeComplete={handleJun}
-                />
-                <Slider
-                    defaultValue={jul}
-                    style={{width: '200px'}}
-                    step={10}
-                    max={1000}
-                    tooltip={{
-                    open: true,
-                    }}
-                    onChangeComplete={handleJul}
-
-                />
-                <Slider
-                    defaultValue={aug}
-                    style={{width: '200px'}}
-                    step={10}
-                    max={1000}
-                    tooltip={{
-                    open: true,
-                    }}
-                    onChangeComplete={handleAug}
-                />
-                <Button onClick={handleSubmit} style={{backgroundColor: '#ff675a', color: 'white',}}>Submit</Button>
+                  <Flex>
+                    <Typography.Title level={4} style={{marginRight: 20, marginTop: -2}}>June</Typography.Title>
+                    <Slider
+                        defaultValue={jun}
+                        style={{width: '200px'}}
+                        step={10}
+                        max={1000}
+                        tooltip={{
+                        open: true,
+                        }}
+                        onChangeComplete={handleJun}
+                    />
+                </Flex>
+                <Flex>
+                  <Typography.Title level={4} style={{marginRight: 20, marginTop: -2}}>July</Typography.Title>
+                  <Slider
+                      defaultValue={jul}
+                      style={{width: '200px'}}
+                      step={10}
+                      max={1000}
+                      tooltip={{
+                      open: true,
+                      }}
+                      onChangeComplete={handleJul}
+                  />
+                </Flex>
+                <Flex>
+                  <Typography.Title level={4} style={{marginRight: 20, marginTop: -2}}>August</Typography.Title>
+                  <Slider
+                      defaultValue={aug}
+                      style={{width: '200px'}}
+                      step={10}
+                      max={1000}
+                      tooltip={{
+                      open: true,
+                      }}
+                      onChangeComplete={handleAug}
+                  />
+                </Flex>
+                <Button onClick={handleSubmit} style={{backgroundColor: '#ff675a', color: 'white', marginTop: 20}}>Submit</Button>
                 </Col>
                 <Col lg={12} style={{display: 'block'}}>
                     <div>
@@ -224,7 +234,7 @@ const Floods = () => {
             textAlign: 'center',
           }}
         >
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+          DisasterGuard©{new Date().getFullYear()}
         </Footer>
       </Layout>
     </Layout>
