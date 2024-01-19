@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import flood_line from '../assets/flood_line.jpeg'
 import Fdodont from '../components/Fdodont';
 import Earthquake from './Earthquake';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const { Title, Text } = Typography;
@@ -13,7 +13,11 @@ const { Header, Content, Footer, Sider } = Layout;
 const items = [
     {
       key: '1',
-      label: 'Earthquake',
+      label: (
+        <a href="/earthquake"  rel="noopener noreferrer">
+          Earthquake
+        </a>
+      ),
     },
     {
       key: '2',
@@ -86,6 +90,7 @@ const Floods = () => {
       });
   };
 
+  const navigate = useNavigate();
 
   return (
     <Layout hasSider>
@@ -118,26 +123,27 @@ const Floods = () => {
         }}
       >
         <div className="demo-logo-vertical" />
-        <h1 style={{color: '#ffffff', alignSelf: 'center'}}>DisasterGuard</h1>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']} items={items}>
-        {items.map(item => (
+        <h1 style={{color: '#ffffff', alignSelf: 'center', marginLeft: 20}} >DisasterGuard</h1>
+        {/* <h1 style={{color: '#ffffff', alignSelf: 'center', marginLeft: 20}} onClick={navigate('/')}>DisasterGuard</h1> */}
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']} items={items} />
+        {/* {items.map(item => (
           <Menu.Item key={item.key}>
             <Link to={`/${item.label.toLowerCase()}`}>{item.label}</Link>
           </Menu.Item>
-        ))}
-        </Menu>
+        ))} */}
+        {/* </Menu> */}
       </Sider>
       <Layout
         style={{
           marginLeft: 200,
         }}
       >
-        <Header
+        {/* <Header
           style={{
             padding: 0,
             background: colorBgContainer,
           }}
-        />
+        /> */}
         <Content
           style={{
             margin: '24px 16px 0',
@@ -203,8 +209,8 @@ const Floods = () => {
                 </Col>
                 <Col lg={12} style={{display: 'block'}}>
                     <div>
-                        <Text>Prediction: {pred}</Text>
-                        <Text>Fatality_rate: {fat}</Text>
+                        <Typography.Title level={4} style={{marginRight: 20}}>Prediction: {pred}</Typography.Title>
+                        <Typography.Title level={4}>Fatality_rate: {fat}</Typography.Title>
                     </div>
                 </Col>
             </Row>

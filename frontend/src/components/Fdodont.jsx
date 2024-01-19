@@ -12,7 +12,7 @@ const text = `
 const getItems = (panelStyle) => [
   {
     key: '1',
-    label: 'What to Do Before an Earthquake',
+    label: 'What to Do Before an Flood',
     children: <ul>
     <li>Avoid building in flood-prone areas unless you elevate and reinforce your home.</li>
     <li>Elevate the furnace, water heater, and electric panel if susceptible to flooding.</li>
@@ -24,13 +24,19 @@ const getItems = (panelStyle) => [
   },
   {
     key: '2',
-    label: 'This is panel header 2',
-    children: <p>{text}</p>,
+    label: 'What to Do After an Flood',
+    children: <ul>
+    <li>Avoid building in flood-prone areas unless you elevate and reinforce your home.</li>
+    <li>Elevate the furnace, water heater, and electric panel if susceptible to flooding.</li>
+    <li>Install "Check Valves" in sewer traps to prevent floodwater from backing up into the drains of your home.</li>
+    <li>Contact community officials to find out if they are planning to construct barriers (levees, beams, and floodwalls) to stop floodwater from entering the homes in your area.</li>
+    <li>Seal the walls in your basement with waterproofing compounds to avoid seepage.</li>
+  </ul>,
     style: panelStyle,
   },
   {
     key: '3',
-    label: 'This is panel header 3',
+    label: 'Emergency Kit',
     children: <p>{text}</p>,
     style: panelStyle,
   },

@@ -110,7 +110,7 @@ const SeismicActivityGraphs = () => {
             placeholder="End Date"
           />
         </Space>
-        <Button type="primary" onClick={fetchData}>
+        <Button type="primary" onClick={fetchData} style={{backgroundColor: '#ff675a', color: 'white'}}>
           Apply Filters
         </Button>
         <Button onClick={resetFilters}>Reset Filters</Button>

@@ -12,18 +12,35 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 const { Title, Text } = Typography;
 
 const { Header, Content, Footer, Sider } = Layout;
 const items = [
   {
     key: '1',
-    label: 'Earthquake'
+    label: 'Earthquake',
   },
   {
     key: '2',
-    label: 'Floods'
-  }
+    label: (
+      <a href="/floods"  rel="noopener noreferrer">
+        Flood
+      </a>
+    ),
+  },
+  {
+      key: '3',
+      label: 'Cyclone'
+  },
+  {
+      key: '4',
+      label: 'Tsunami'
+  },
+  {
+      key: '5',
+      label: 'Cloudburst'
+    }
 ]
 
 // const items1 = ['1', '2', '3'].map((key) => ({
@@ -35,6 +52,9 @@ const Earthquake = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const navigate = useNavigate();
+
   return (
     <Layout hasSider>
     {/* <Header
@@ -66,19 +86,21 @@ const Earthquake = () => {
         }}
       >
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} />
+        <h1 style={{color: '#ffffff', alignSelf: 'center', marginLeft: 20}} >DisasterGuard</h1>
+        {/* <h1 style={{color: '#ffffff', alignSelf: 'center', marginLeft: 20}} onClick={navigate('/')}>DisasterGuard</h1> */}
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} items={items} />
       </Sider>
       <Layout
         style={{
           marginLeft: 200,
         }}
       >
-        <Header
+        {/* <Header
           style={{
             padding: 0,
             background: colorBgContainer,
           }}
-        />
+        /> */}
         <Content
           style={{
             margin: '24px 16px 0',

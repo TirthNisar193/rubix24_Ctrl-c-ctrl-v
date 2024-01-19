@@ -1,48 +1,69 @@
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import { useState } from 'react';
-import './Home.css'
+import { Menu, Row, theme, Layout, Typography } from 'antd';
+import SeismicActivityGraphs from '../components/SeismicActivityGraphs';
+import Eqdodont from '../components/Eqdodont';
+import React from 'react';
+import {
+  AppstoreOutlined,
+  BarChartOutlined,
+  CloudOutlined,
+  ShopOutlined,
+  TeamOutlined,
+  UploadOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
+} from '@ant-design/icons';
 import Hero from './Hero';
+import { useNavigate } from 'react-router-dom';
+const { Title, Text } = Typography;
 
-const { Header, Content, Footer } = Layout;
-
+const { Header, Content, Footer, Sider } = Layout;
 const items = [
-    {
-      label: 'Home',
-      key: 'home',
-    },
-    {
-      label: 'Navigation Two',
-      key: 'app',
-    },
-    {
-        label: (
-          <a href="/earthquake"  rel="noopener noreferrer">
-            Seismic Activity
-          </a>
-        ),
-        key: 'alipay',
-      },
-    ];
+  {
+    key: '1',
+    label: (
+      <a href="/earthquake"  rel="noopener noreferrer">
+        Earthquake
+      </a>
+    ),
+  },
+  {
+    key: '2',
+    label: (
+      <a href="/floods"  rel="noopener noreferrer">
+        Flood
+      </a>
+    ),
+  },
+  {
+      key: '3',
+      label: 'Cyclone'
+  },
+  {
+      key: '4',
+      label: 'Tsunami'
+  },
+  {
+      key: '5',
+      label: 'Cloudburst'
+    }
+]
+
+// const items1 = ['1', '2', '3'].map((key) => ({
+//   key,
+//   label: `nav ${key}`,
+// }));
 
 const Home = () => {
-    const [current, setCurrent] = useState('mail');
-  const onClick = (e) => {
-    console.log('click ', e);
-    setCurrent(e.key);
-  };
-
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+  const navigate = useNavigate();
+
   return (
-    <Layout>
-      <Header
+    <Layout hasSider>
+    {/* <Header
         style={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 1,
-          width: '100%',
           display: 'flex',
           alignItems: 'center',
         }}
@@ -50,48 +71,172 @@ const Home = () => {
         <div className="demo-logo" />
         <Menu
           theme="dark"
-          onClick={onClick} 
-          selectedKeys={[current]} 
-          mode="horizontal" 
-          items={items}
+          mode="horizontal"
+          defaultSelectedKeys={['2']}
+          items={items1}
           style={{
             flex: 1,
             minWidth: 0,
           }}
         />
-      </Header>
-      <Content
+      </Header> */}
+      <Sider
         style={{
-          padding: '0 48px',
+          overflow: 'auto',
+          height: '100vh',
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          bottom: 0,
         }}
       >
-        <Breadcrumb
+        <div className="demo-logo-vertical" />
+        <h1 style={{color: '#ffffff', alignSelf: 'center', marginLeft: 20}}>DisasterGuard</h1>
+        <Menu theme="dark" mode="inline" items={items} />
+      </Sider>
+      <Layout
+        style={{
+          marginLeft: 200,
+        }}
+      >
+        {/* <Header
           style={{
-            margin: '16px 0',
-          }}
-        >
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
-        <div
-          style={{
-            minHeight: 380,
+            padding: 0,
             background: colorBgContainer,
-            borderRadius: borderRadiusLG,
+          }}
+        /> */}
+        <Content
+          style={{
+            margin: '24px 16px 0',
+            overflow: 'initial',
           }}
         >
-          <Hero/>
-        </div>
-      </Content>
-      <Footer
-        style={{
-          textAlign: 'center',
-        }}
-      >
-        Ant Design ©{new Date().getFullYear()} Created by Ant UED
-      </Footer>
+          <div
+            style={{
+              minHeight: 380,
+              background: colorBgContainer,
+              borderRadius: borderRadiusLG,
+            }}
+          >
+            <Hero/>
+          </div>
+        </Content>
+        <Footer
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+        </Footer>
+      </Layout>
     </Layout>
   );
 };
 export default Home;
+
+
+
+
+
+
+
+
+
+
+// import { Breadcrumb, Layout, Menu, theme } from 'antd';
+// import { useState } from 'react';
+// import './Home.css'
+// import Hero from './Hero';
+
+// const { Header, Content, Footer } = Layout;
+
+// const items = [
+//     {
+//       label: 'Home',
+//       key: 'home',
+//     },
+//     {
+//       label: 'Navigation Two',
+//       key: 'app',
+//     },
+//     {
+//         label: (
+//           <a href="/earthquake"  rel="noopener noreferrer">
+//             Seismic Activity
+//           </a>
+//         ),
+//         key: 'alipay',
+//       },
+//     ];
+
+// const Home = () => {
+//     const [current, setCurrent] = useState('mail');
+//   const onClick = (e) => {
+//     console.log('click ', e);
+//     setCurrent(e.key);
+//   };
+
+//   const {
+//     token: { colorBgContainer, borderRadiusLG },
+//   } = theme.useToken();
+
+//   return (
+//     <Layout>
+//       <Header
+//         style={{
+//           position: 'sticky',
+//           top: 0,
+//           zIndex: 1,
+//           width: '100%',
+//           display: 'flex',
+//           alignItems: 'center',
+//         }}
+//       >
+//         <div className="demo-logo" />
+//         <Menu
+//           theme="dark"
+//           onClick={onClick} 
+//           selectedKeys={[current]} 
+//           mode="horizontal" 
+//           items={items}
+//           style={{
+//             flex: 1,
+//             minWidth: 0,
+//           }}
+//         />
+//       </Header>
+//       <Content
+//         style={{
+//           padding: '0 48px',
+//         }}
+//       >
+//         <Breadcrumb
+//           style={{
+//             margin: '16px 0',
+//           }}
+//         >
+//           <Breadcrumb.Item>Home</Breadcrumb.Item>
+//           <Breadcrumb.Item>List</Breadcrumb.Item>
+//           <Breadcrumb.Item>App</Breadcrumb.Item>
+//         </Breadcrumb>
+//         <div
+//           style={{
+//             minHeight: 380,
+//             background: colorBgContainer,
+//             borderRadius: borderRadiusLG,
+//           }}
+//         >
+//           <Hero/>
+//         </div>
+//       </Content>
+//       <Footer
+//         style={{
+//           textAlign: 'center',
+//         }}
+//       >
+//         Ant Design ©{new Date().getFullYear()} Created by Ant UED
+//       </Footer>
+//     </Layout>
+//   );
+// };
+// export default Home;

@@ -30,13 +30,25 @@ const getItems = (panelStyle) => [
   },
   {
     key: '2',
-    label: 'This is panel header 2',
-    children: <p>{text}</p>,
+    label: 'What to Do After an Earthquake',
+    children: <ul>
+    <li>Repair deep plaster cracks in ceilings and foundations. Get expert advice if there are signs of structural defects.</li>
+    <li>Anchor overhead lighting fixtures to the ceiling.</li>
+    <li>Follow BIS codes relevant to your area for building standards.</li>
+    <li>Fasten shelves securely to walls.</li>
+    <li>Place large or heavy objects on lower shelves.</li>
+    <li>Store breakable items such as bottled foods, glass, and china in low, closed cabinets with latches.</li>
+    <li>Hang heavy items such as pictures and mirrors away from beds, settees, and anywhere that people sit.</li>
+    <li>Brace overhead light and fan fixtures.</li>
+    <li>Repair defective electrical wiring and leaky gas connections. These are potential fire risks.</li>
+    <li>Secure water heaters, LPG cylinders, etc., by strapping them to the walls or bolting to the floor.</li>
+    <li>Store weed killers, pesticides, and flammable products securely in closed cabinets with latches and on bottom shelves.</li>
+  </ul>,
     style: panelStyle,
   },
   {
     key: '3',
-    label: 'This is panel header 3',
+    label: 'Emergency Kit',
     children: <p>{text}</p>,
     style: panelStyle,
   },
