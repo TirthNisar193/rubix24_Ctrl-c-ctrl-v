@@ -1,30 +1,37 @@
-# Q&A ChatBot
-from langchain_openai import ChatOpenAI 
-from dotenv import load_dotenv
-
-load_dotenv() # take environment varialbes from .env
-
+from openai import OpenAI
 import streamlit as st
-import os
 
+st.title("DisasterGaurd Bot 🤖")
 
-## Function to load OpenAi model and get responses
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
-def get_open_response(question):
-    llm= ChatOpenAI(openai_api_key='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', model_name="gpt-3.5-turbo-0613", temperature=0.5)
-    response=llm.invoke(question)
-    return response
+if "openai_model" not in st.session_state:
+    st.session_state["openai_model"] = "gpt-3.5-turbo"
 
-## Initialise our streamlit app
-st.set_page_config(page_title="Q&A Demo")
-st.header("Langchain Application")
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
-input = st.text_input("Input:  ", key="input")
-response = get_open_response(input)
-submit = st.button("Generate")
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
 
-## If Generate button is clicked
+if prompt := st.chat_input("What is up?"):
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.markdown(prompt)
 
-if submit:
-    st.subheader("The Reponse is")
-    st.write(response)
+    with st.chat_message("assistant"):
+        message_placeholder = st.empty()
+        full_response = ""
+        for response in client.chat.completions.create(
+            model=st.session_state["openai_model"],
+            messages=[
+                {"role": m["role"], "content": m["content"]}
+                for m in st.session_state.messages
+            ],
+            stream=True,
+        ):
+            full_response += (response.choices[0].delta.content or "")
+            message_placeholder.markdown(full_response + "▌")
+        message_placeholder.markdown(full_response)
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
