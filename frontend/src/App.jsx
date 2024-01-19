@@ -4,10 +4,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import SeismicActivityGraphs from './components/SeismicActivityGraphs'
 // import EmergencyDeploymentMap from './components/EmergencyDeploymentMap'
 import Home from './layout/Home'
-// import Tweets from './layout/Tweets'
-import Video from './layout/Video'
-// import GeoJSONMap from './components/GeoJSONMap'
-// import MyMap from './components/MyMap'
+import Earthquake from './layout/Earthquake'
+import Floods from './layout/Floods'
 
 function App() {
 
@@ -15,11 +13,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home/>}/>
-        {/* <Route path='/video' element={<Video/>}/> */}
-        {/* <Route path='/tweets' element={<Tweets/>}/> */}
-        {/* <Route path='/map' element={<GeoJSONMap/>}/> */}
-        {/* <Route path='/map' element={<MyMap/>}/> */}
-        <Route path='/seismic' element={<SeismicActivityGraphs/>}/>
+        <Route path='/earthquake' element={<Earthquake/>}/>
+        <Route path='/floods' element={<Floods/>}/>
+
         {/* <Route path='/map' element={<ResourceAllocationMap />}/>
         <Route path='/EmergencyDeploymentMap' element={<EmergencyDeploymentMap/>} /> */}
       </Routes>  

@@ -16,7 +16,7 @@ const items = [
     },
     {
         label: (
-          <a href="/seismic"  rel="noopener noreferrer">
+          <a href="/earthquake"  rel="noopener noreferrer">
             Seismic Activity
           </a>
         ),
