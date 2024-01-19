@@ -1,9 +1,10 @@
-import { Menu, Row, theme, Layout, Typography } from 'antd';
-import React from 'react';
+import { Menu, Row, theme, Layout, Typography, Col, Slider, Flex, Button } from 'antd';
+import React, { useState } from 'react';
 import flood_line from '../assets/flood_line.jpeg'
 import Fdodont from '../components/Fdodont';
 import Earthquake from './Earthquake';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const { Title, Text } = Typography;
 
@@ -38,9 +39,54 @@ const items = [
 // }));
 
 const Floods = () => {
+    const [jun, setJun] = useState(0)
+    const [jul, setJul] = useState(0)
+    const [aug, setAug] = useState(0)
+    const [pred, setPred] = useState(0)
+    const [fat, setFat] = useState(0)
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const handleJun = (value) => {
+    setJun(value)
+  };
+  const handleJul = (value) => {
+    setJul(value)
+  };
+  const handleAug = (value) => {
+    setAug(value)
+  };
+
+  const handleSubmit = () => {
+    console.log(jun, jul, aug)
+    axios.post('http://127.0.0.1:8000/predict_flood', 
+        {
+            "YEAR": 2022,
+            "JAN": 100.0,
+            "FEB": 100.0,
+            "MAR": 100.0,
+            "APR": 70.0,
+            "MAY": 30.0,
+            "JUN": jun,
+            "JUL": jul,
+            "AUG": aug,
+            "SEP": 50.0,
+            "OCT": 50.0,
+            "NOV": 110.0,
+            "DEC": 60.0
+          }
+    )
+      .then(res => {
+        setPred(res.data.prediction)
+        setFat(res.data.fatality_rate)
+    })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+
   return (
     <Layout hasSider>
     {/* <Header
@@ -119,6 +165,48 @@ const Floods = () => {
               </Row>
             <Row justify={'center'}>
                 <img src={flood_line} style={{width: '80%', padding: '3%'}}/>
+            </Row>
+            <Row style={{margin: '1% 23% 2% 18%', padding: '4%', border: 'solid black 1px'}}>
+                <Col lg={12}>
+                <Slider
+                    defaultValue={jun}
+                    style={{width: '200px'}}
+                    step={10}
+                    max={1000}
+                    tooltip={{
+                    open: true,
+                    }}
+                    onChangeComplete={handleJun}
+                />
+                <Slider
+                    defaultValue={jul}
+                    style={{width: '200px'}}
+                    step={10}
+                    max={1000}
+                    tooltip={{
+                    open: true,
+                    }}
+                    onChangeComplete={handleJul}
+
+                />
+                <Slider
+                    defaultValue={aug}
+                    style={{width: '200px'}}
+                    step={10}
+                    max={1000}
+                    tooltip={{
+                    open: true,
+                    }}
+                    onChangeComplete={handleAug}
+                />
+                <Button onClick={handleSubmit} style={{backgroundColor: '#ff675a', color: 'white',}}>Submit</Button>
+                </Col>
+                <Col lg={12} style={{display: 'block'}}>
+                    <div>
+                        <Text>Prediction: {pred}</Text>
+                        <Text>Fatality_rate: {fat}</Text>
+                    </div>
+                </Col>
             </Row>
             <Row style={{padding: '1% 5%'}}>
               <Fdodont/>
